@@ -2,9 +2,20 @@ package com.kkjk.bloggingsystem.blogEntry;
 
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.comment.CommentEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +40,7 @@ public class BlogEntryEntity {
     @JoinColumn(name="blogpost_id")
     private List<BlogObjectEntity> blogObjects;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="blogpost_id")
     private List<CommentEntity> comments;
 }

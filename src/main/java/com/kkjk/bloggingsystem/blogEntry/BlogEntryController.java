@@ -1,9 +1,14 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
-
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +22,27 @@ import java.util.UUID;
 public class BlogEntryController {
 
     private final BlogEntryService service;
+
+    @RequestMapping(value = "/getFrontPage", method = RequestMethod.GET)
+    ResponseEntity<Page<BlogEntryFrontPageResponseDto>> getFrontPage(
+            @PageableDefault()
+            @SortDefault.SortDefaults({
+                    @SortDefault(sort = "createdDate", direction = Sort.Direction.DESC)
+            }) Pageable pageable) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.getBlogPage(pageable));
+        } catch (BlogEntryNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
 
     @RequestMapping(value = "/getBlogEntryById", method = RequestMethod.GET)
     ResponseEntity<BlogEntryResponseDto> getBlogEntry(@RequestParam String entryUUID) {
@@ -35,20 +61,18 @@ public class BlogEntryController {
         }
     }
 
-
     @RequestMapping(value = "/createBlogEntry", method = RequestMethod.POST)
     ResponseEntity<UUID> createEntry(@RequestBody BlogEntryRequestDto dto) {
-        try{
+        try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(service.createEntry(dto));
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
         }
     }
-
 
     @RequestMapping(value = "/incrementBlogEntryViewCount", method = RequestMethod.GET)
     ResponseEntity<Void> incrementBlogEntryViewCount(@RequestParam String entryUUID) {
@@ -99,8 +123,4 @@ public class BlogEntryController {
                     .build();
         }
     }
-
-
-
-
 }

@@ -19,5 +19,4 @@ public class BlogObjectFactory {
                 .type(dto.getType())
                 .build();
     }
-
 }

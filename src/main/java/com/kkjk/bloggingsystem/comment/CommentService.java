@@ -33,4 +33,8 @@ public class CommentService {
                 .map(CommentFactory::entityToResponse)
                 .collect(Collectors.toList());
     }
+
+    public void deleteCommentById(String commentUUID) {
+        commentRepository.deleteById(UUID.fromString(commentUUID));
+    }
 }

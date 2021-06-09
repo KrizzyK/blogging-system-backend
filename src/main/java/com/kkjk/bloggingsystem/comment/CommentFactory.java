@@ -8,6 +8,7 @@ import java.time.Instant;
 public class CommentFactory {
     public static CommentResponseDto entityToResponse(CommentEntity commentEntity) {
         return CommentResponseDto.builder()
+                .id(commentEntity.getId().toString())
                 .content(commentEntity.getContent())
                 .createdDate(commentEntity.getCreatedDate())
                 .username(commentEntity.getUsername())
