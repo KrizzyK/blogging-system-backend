@@ -3,12 +3,12 @@ package com.kkjk.bloggingsystem.comment.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @Builder
 public class CommentResponseDto {
     private String username;
     private String content;
-    private Timestamp createdDate;
+    private Instant createdDate;
 }

@@ -1,6 +1,7 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
+import com.kkjk.bloggingsystem.comment.CommentEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,5 +31,5 @@ public class BlogEntryEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="blogpost_id")
-    private List<BlogObjectEntity> comments;
+    private List<CommentEntity> comments;
 }

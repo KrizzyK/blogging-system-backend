@@ -21,11 +21,11 @@ public class CommentController {
     private final CommentService service;
 
     @RequestMapping(value = "/createComment", method = RequestMethod.POST)
-    ResponseEntity<UUID> createComment(@RequestBody CommentRequestDto dto) {
+    ResponseEntity<UUID> createComment(@RequestBody CommentRequestDto dto, @RequestParam String parentId) {
         try{
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(service.createComment(dto));
+                    .body(service.createComment(parentId, dto));
         } catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

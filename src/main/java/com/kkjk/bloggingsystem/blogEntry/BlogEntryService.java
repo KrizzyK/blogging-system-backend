@@ -4,6 +4,7 @@ import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectService;
+import com.kkjk.bloggingsystem.comment.CommentEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +20,15 @@ public class BlogEntryService {
     private final BlogObjectService blogObjectService;
 
     @Transactional
-    public BlogEntryResponseDto getBlogEntryById(String entryUUID) {
+    public BlogEntryResponseDto getBlogEntryResponseById(String entryUUID) {
         return BlogEntryFactory.entityToResponseDto(
                 repository.findById(UUID.fromString(entryUUID))
                         .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID)));
+    }
+
+    public BlogEntryEntity getBlogEntryById(String entryUUID) {
+        return repository.findById(UUID.fromString(entryUUID))
+                .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
     }
 
     @Transactional
@@ -35,7 +41,7 @@ public class BlogEntryService {
 
     @Transactional
     public UUID createEntry(BlogEntryRequestDto dto) {
-        return repository.save( BlogEntryFactory.requestDtoToEntity(dto)).getId();
+        return repository.save(BlogEntryFactory.requestDtoToEntity(dto)).getId();
     }
 
     @Transactional
@@ -43,7 +49,7 @@ public class BlogEntryService {
         BlogEntryEntity entity = repository.findById(UUID.fromString(entryUUID)).orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
 
         // delete all previous BlogObjects
-        List<BlogObjectEntity> previousBlogObjects =  entity.getBlogObjects();
+        List<BlogObjectEntity> previousBlogObjects = entity.getBlogObjects();
         blogObjectService.deleteAllBlogObjects(previousBlogObjects);
 
         BlogEntryFactory.updateEntity(entity, dto);
@@ -57,9 +63,15 @@ public class BlogEntryService {
     public void deleteBlogEntry(String entryUUID) {
         BlogEntryEntity entity = repository.findById(UUID.fromString(entryUUID)).orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
 
-        List<BlogObjectEntity> previousBlogObjects =  entity.getBlogObjects();
+        List<BlogObjectEntity> previousBlogObjects = entity.getBlogObjects();
         blogObjectService.deleteAllBlogObjects(previousBlogObjects);
 
         repository.delete(entity);
+    }
+
+    public List<CommentEntity> getAllComments(String entryUUID) {
+        return repository.findById(UUID.fromString(entryUUID))
+                .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID))
+                .getComments();
     }
 }

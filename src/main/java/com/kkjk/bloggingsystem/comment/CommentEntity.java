@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Builder
@@ -22,5 +22,5 @@ public class CommentEntity {
 
     private String username;
     private String content;
-    private Timestamp createdDate;
+    private Instant createdDate;
 }

@@ -23,7 +23,7 @@ public class BlogEntryController {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(service.getBlogEntryById(entryUUID));
+                    .body(service.getBlogEntryResponseById(entryUUID));
         } catch (BlogEntryNotFoundException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
