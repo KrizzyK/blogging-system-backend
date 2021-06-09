@@ -1,7 +1,6 @@
 package com.kkjk.bloggingsystem.blogObject;
 
 
-import com.kkjk.bloggingsystem.blogEntry.BlogEntryEntity;
 import lombok.*;
 
 import javax.persistence.*;

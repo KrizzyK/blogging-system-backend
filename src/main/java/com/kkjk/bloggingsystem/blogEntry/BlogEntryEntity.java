@@ -27,4 +27,8 @@ public class BlogEntryEntity {
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="blogpost_id")
     private List<BlogObjectEntity> blogObjects;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="blogpost_id")
+    private List<BlogObjectEntity> comments;
 }
