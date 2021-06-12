@@ -1,6 +1,7 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
+import com.kkjk.bloggingsystem.user.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class BlogEntryEntity {
     private Instant createdDate;
     private Instant modifiedDate;
     private Integer viewCount;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private UserEntity author;
 
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="blogpost_id")

@@ -4,12 +4,15 @@ import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectService;
+import com.kkjk.bloggingsystem.user.UserEntity;
+import com.kkjk.bloggingsystem.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,8 @@ public class BlogEntryService {
     private final BlogEntryRepository repository;
 
     private final BlogObjectService blogObjectService;
+
+    private final UserService userService;
 
     @Transactional
     public BlogEntryResponseDto getBlogEntryById(String entryUUID) {
@@ -35,7 +40,8 @@ public class BlogEntryService {
 
     @Transactional
     public UUID createEntry(BlogEntryRequestDto dto) {
-        return repository.save( BlogEntryFactory.requestDtoToEntity(dto)).getId();
+        UserEntity author = userService.getCurrentUser();
+        return repository.save( BlogEntryFactory.requestDtoToEntity(dto,author)).getId();
     }
 
     @Transactional
@@ -54,6 +60,7 @@ public class BlogEntryService {
 
     }
 
+    @Transactional
     public void deleteBlogEntry(String entryUUID) {
         BlogEntryEntity entity = repository.findById(UUID.fromString(entryUUID)).orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
 
@@ -61,5 +68,11 @@ public class BlogEntryService {
         blogObjectService.deleteAllBlogObjects(previousBlogObjects);
 
         repository.delete(entity);
+    }
+
+    @Transactional
+    public List<BlogEntryResponseDto> getAllCurrentUserBlogEntries() {
+        UserEntity userEntity = userService.getCurrentUser();
+        return repository.findAllByAuthor(userEntity).stream().map(BlogEntryFactory::entityToResponseDto).collect(Collectors.toList());
     }
 }
