@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class BlogEntryController {
     }
 
 
-    @RequestMapping(value = "/createBlogEntry", method = RequestMethod.POST)
+    @RequestMapping(value = "/redactor/createBlogEntry", method = RequestMethod.POST)
     ResponseEntity<UUID> createEntry(@RequestBody BlogEntryRequestDto dto) {
         try{
             return ResponseEntity
@@ -67,7 +68,7 @@ public class BlogEntryController {
         }
     }
 
-    @RequestMapping(value = "/updateBlogEntry", method = RequestMethod.PUT)
+    @RequestMapping(value = "/redactor/updateBlogEntry", method = RequestMethod.PUT)
     ResponseEntity<UUID> updateBlogEntry(@RequestBody BlogEntryRequestDto dto, @RequestParam String entryUUID) {
         try {
             return ResponseEntity
@@ -84,11 +85,28 @@ public class BlogEntryController {
         }
     }
 
-    @RequestMapping(value = "/deleteBlogEntry", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/redactor/deleteBlogEntry", method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteBlogEntry(@RequestParam String entryUUID) {
         try {
             service.deleteBlogEntry(entryUUID);
             return ResponseEntity.noContent().build();
+        } catch (BlogEntryNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+    @RequestMapping(value = "/redactor/getAllCurrentUserBlogEntries", method = RequestMethod.GET)
+    ResponseEntity<List<BlogEntryResponseDto>> getAllMyBlogEntries() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.getAllCurrentUserBlogEntries());
         } catch (BlogEntryNotFoundException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

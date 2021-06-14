@@ -1,13 +1,13 @@
-#jwt:
-#  authorities:
-#    key: roles
-#  header:
-#    string: Authorization
-#  signing:
-#    key: signingkey
-#  token:
-#    prefix: Bearer
-#    validity: 18000
+jwt:
+  authorities:
+    key: roles
+  header:
+    string: Authorization
+  signing:
+    key: signingkey
+  token:
+    prefix: Bearer
+    validity: 18000
 
 server:
   port: 8081
