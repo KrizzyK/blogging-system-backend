@@ -74,6 +74,23 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/currentUserInformation", method = RequestMethod.GET)
+    public ResponseEntity<UserProfileDto> getCurrentUserInfo() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(userService.getCurrentUserInfo());
+        }catch(UserNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
     @RequestMapping(value = "/admin/promoteUserToRedactor", method = RequestMethod.POST)
     public ResponseEntity<Void> promoteUserToRedactor(@RequestParam UUID userId) {
         try{
@@ -88,10 +105,10 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/admin/demoteUserToRedactor", method = RequestMethod.POST)
-    public ResponseEntity<Void> demoteUserToRedactor(@RequestParam UUID userId) {
+    @RequestMapping(value = "/admin/demoteRedactorToUser", method = RequestMethod.POST)
+    public ResponseEntity<Void> demoteRedactorToUser(@RequestParam UUID userId) {
         try{
-            userService.demoteUserToRedactor(userId);
+            userService.demoteRedactorToUser(userId);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .build();

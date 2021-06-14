@@ -2,10 +2,7 @@ package com.kkjk.bloggingsystem.user;
 
 import com.kkjk.bloggingsystem.role.RoleEntity;
 import com.kkjk.bloggingsystem.role.RoleService;
-import com.kkjk.bloggingsystem.user.dto.ChangePasswordRequestDto;
-import com.kkjk.bloggingsystem.user.dto.UserBasicInfoDto;
-import com.kkjk.bloggingsystem.user.dto.UserRegisterRequestDto;
-import com.kkjk.bloggingsystem.user.dto.UserRegisterResponseDto;
+import com.kkjk.bloggingsystem.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -111,7 +108,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void demoteUserToRedactor(UUID userId) {
+    public void demoteRedactorToUser(UUID userId) {
         UserEntity user = findUserEntityById(userId);
 
         RoleEntity role = roleService.getRedactorRole();
@@ -124,5 +121,12 @@ public class UserService implements UserDetailsService {
         List<UserEntity> users = userRepository.findAll();
         //users.remove(getCurrentUser());
         return users.stream().map(UserFactory::entityToBasicInfoDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserProfileDto getCurrentUserInfo() {
+        UserEntity user = getCurrentUser();
+        return UserFactory.entityToProfileDto(user);
+
     }
 }

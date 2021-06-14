@@ -9,10 +9,13 @@ import java.util.UUID;
 
 @Builder
 @Data
-public class UserRegisterResponseDto {
+public class UserProfileDto {
+
     private UUID id;
+
     private String username;
     private String email;
 
     private Set<RoleEntity> roles;
+
 }
