@@ -2,6 +2,7 @@ package com.kkjk.bloggingsystem.user;
 
 import com.kkjk.bloggingsystem.role.RoleEntity;
 import com.kkjk.bloggingsystem.user.dto.UserBasicInfoDto;
+import com.kkjk.bloggingsystem.user.dto.UserProfileDto;
 import com.kkjk.bloggingsystem.user.dto.UserRegisterRequestDto;
 import com.kkjk.bloggingsystem.user.dto.UserRegisterResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class UserFactory {
                 .id(entity.getId())
                 .email(entity.getEmail())
                 .username(entity.getUsername())
+                .roles(entity.getRoles())
                 .build();
     }
 
@@ -34,6 +36,15 @@ public class UserFactory {
         return UserBasicInfoDto.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
+                .build();
+    }
+
+    public static UserProfileDto entityToProfileDto(UserEntity entity) {
+        return UserProfileDto.builder()
+                .id(entity.getId())
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .roles(entity.getRoles())
                 .build();
     }
 
