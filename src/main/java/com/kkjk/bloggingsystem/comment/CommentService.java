@@ -19,7 +19,7 @@ public class CommentService {
     private final BlogEntryService blogEntryService;
 
     public UUID createComment(String parentId, CommentRequestDto dto) {
-        BlogEntryEntity blogEntryEntity = blogEntryService.getBlogEntryById(parentId);
+        BlogEntryEntity blogEntryEntity = blogEntryService.getBlogEntryEntityById(parentId);
         CommentEntity commentEntity = CommentFactory.requestToEntity(dto);
 
         blogEntryEntity.getComments().add(commentEntity);

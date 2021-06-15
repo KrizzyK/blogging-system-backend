@@ -1,5 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
@@ -8,6 +9,7 @@ import com.kkjk.bloggingsystem.comment.CommentEntity;
 import com.kkjk.bloggingsystem.user.UserEntity;
 import com.kkjk.bloggingsystem.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class BlogEntryService {
                         .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID)));
     }
 
-    public BlogEntryEntity getBlogEntryById(String entryUUID) {
+    public BlogEntryEntity getBlogEntryEntityById(String entryUUID) {
         return repository.findById(UUID.fromString(entryUUID))
                 .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
     }
