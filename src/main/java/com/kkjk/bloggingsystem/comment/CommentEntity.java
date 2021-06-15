@@ -1,4 +1,4 @@
-package com.kkjk.bloggingsystem.blogObject;
+package com.kkjk.bloggingsystem.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.Instant;
 import java.util.UUID;
 
 @Builder
@@ -18,13 +19,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BlogObjectEntity {
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String type;
+    private String username;
     private String content;
-    private int positionInBlogEntry;
-
+    private Instant createdDate;
 }

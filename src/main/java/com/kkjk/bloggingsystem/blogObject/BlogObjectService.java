@@ -11,9 +11,7 @@ public class BlogObjectService {
 
     private final BlogObjectRepository repository;
 
-
     public void deleteAllBlogObjects(List<BlogObjectEntity> blogObjects) {
         repository.deleteAll(blogObjects);
     }
-
 }

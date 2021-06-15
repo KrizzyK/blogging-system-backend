@@ -1,6 +1,5 @@
 package com.kkjk.bloggingsystem.blogObject.dto;
 
-
 import lombok.Builder;
 import lombok.Data;
 

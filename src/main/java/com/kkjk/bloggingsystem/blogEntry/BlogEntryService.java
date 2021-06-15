@@ -4,9 +4,12 @@ import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectService;
+import com.kkjk.bloggingsystem.comment.CommentEntity;
 import com.kkjk.bloggingsystem.user.UserEntity;
 import com.kkjk.bloggingsystem.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,11 @@ public class BlogEntryService {
         return BlogEntryFactory.entityToResponseDto(
                 repository.findById(UUID.fromString(entryUUID))
                         .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID)));
+    }
+
+    public BlogEntryEntity getBlogEntryById(String entryUUID) {
+        return repository.findById(UUID.fromString(entryUUID))
+                .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID));
     }
 
     @Transactional
@@ -68,6 +76,21 @@ public class BlogEntryService {
         blogObjectService.deleteAllBlogObjects(previousBlogObjects);
 
         repository.delete(entity);
+    }
+
+    public List<CommentEntity> getAllComments(String entryUUID) {
+        return repository.findById(UUID.fromString(entryUUID))
+                .orElseThrow(() -> new BlogEntryNotFoundException(entryUUID))
+                .getComments();
+    }
+
+    public Page<BlogEntryFrontPageResponseDto> getBlogPage(Pageable pageable) {
+        List<BlogEntryFrontPageResponseDto> list = repository.findAll(pageable)
+                .stream()
+                .map(BlogEntryFactory::entityToFrontPageResponseDto)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(list);
     }
 
     @Transactional

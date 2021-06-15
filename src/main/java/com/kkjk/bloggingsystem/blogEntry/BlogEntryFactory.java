@@ -1,5 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectFactory;
@@ -40,5 +41,12 @@ public class BlogEntryFactory {
         return entityToUpdate;
     }
 
-
+    public static BlogEntryFrontPageResponseDto entityToFrontPageResponseDto(BlogEntryEntity blogEntryEntity) {
+        return BlogEntryFrontPageResponseDto.builder()
+                .id(blogEntryEntity.getId().toString())
+                .title(blogEntryEntity.getTitle())
+                .createdDate(blogEntryEntity.getCreatedDate())
+                .viewCount(blogEntryEntity.getViewCount())
+                .build();
+    }
 }
