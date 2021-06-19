@@ -163,6 +163,20 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/admin/deleteUser", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteUser(@RequestParam UUID userId) {
+        try{
+            userService.deleteUser(userId);
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/adminping", method = RequestMethod.GET)
     public String adminPing() {

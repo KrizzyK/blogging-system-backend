@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -36,6 +37,7 @@ public class UserFactory {
         return UserBasicInfoDto.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
+                .roles(entity.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toSet()))
                 .build();
     }
 

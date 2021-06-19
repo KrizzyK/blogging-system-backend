@@ -119,7 +119,7 @@ public class UserService implements UserDetailsService {
 
     public List<UserBasicInfoDto> getAllUsers() {
         List<UserEntity> users = userRepository.findAll();
-        //users.remove(getCurrentUser());
+        users.remove(getCurrentUser());
         return users.stream().map(UserFactory::entityToBasicInfoDto).collect(Collectors.toList());
     }
 
@@ -128,5 +128,9 @@ public class UserService implements UserDetailsService {
         UserEntity user = getCurrentUser();
         return UserFactory.entityToProfileDto(user);
 
+    }
+    @Transactional
+    public void deleteUser(UUID userId) {
+        userRepository.deleteById(userId);
     }
 }
