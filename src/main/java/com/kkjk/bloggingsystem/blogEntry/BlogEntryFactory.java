@@ -1,5 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
@@ -47,6 +48,15 @@ public class BlogEntryFactory {
                 .title(blogEntryEntity.getTitle())
                 .createdDate(blogEntryEntity.getCreatedDate())
                 .viewCount(blogEntryEntity.getViewCount())
+                .build();
+    }
+
+    public static BlogEntryBasicInfoDto entityToBasicInfoDto(BlogEntryEntity entity) {
+        return BlogEntryBasicInfoDto.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .createdDate(entity.getCreatedDate())
+                .viewCount(entity.getViewCount())
                 .build();
     }
 }

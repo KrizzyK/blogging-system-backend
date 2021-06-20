@@ -1,5 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
@@ -128,7 +129,7 @@ public class BlogEntryController {
     }
 
     @RequestMapping(value = "/redactor/getAllCurrentUserBlogEntries", method = RequestMethod.GET)
-    ResponseEntity<List<BlogEntryResponseDto>> getAllMyBlogEntries() {
+    ResponseEntity<List<BlogEntryBasicInfoDto>> getAllMyBlogEntries() {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)

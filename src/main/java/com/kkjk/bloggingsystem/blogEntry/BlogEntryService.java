@@ -1,5 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
+import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
 import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
@@ -96,8 +97,8 @@ public class BlogEntryService {
     }
 
     @Transactional
-    public List<BlogEntryResponseDto> getAllCurrentUserBlogEntries() {
+    public List<BlogEntryBasicInfoDto> getAllCurrentUserBlogEntries() {
         UserEntity userEntity = userService.getCurrentUser();
-        return repository.findAllByAuthor(userEntity).stream().map(BlogEntryFactory::entityToResponseDto).collect(Collectors.toList());
+        return repository.findAllByAuthor(userEntity).stream().map(BlogEntryFactory::entityToBasicInfoDto).collect(Collectors.toList());
     }
 }
