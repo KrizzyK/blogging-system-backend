@@ -1,9 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
+import com.kkjk.bloggingsystem.blogEntry.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +23,7 @@ public class BlogEntryController {
     private final BlogEntryService service;
 
     @RequestMapping(value = "/getFrontPage", method = RequestMethod.GET)
-    ResponseEntity<Page<BlogEntryFrontPageResponseDto>> getFrontPage(
+    ResponseEntity<Page<BlogEntryDetailedComponent>> getFrontPage(
             @PageableDefault()
             @SortDefault.SortDefaults({
                     @SortDefault(sort = "createdDate", direction = Sort.Direction.DESC)
@@ -129,7 +126,7 @@ public class BlogEntryController {
     }
 
     @RequestMapping(value = "/redactor/getAllCurrentUserBlogEntries", method = RequestMethod.GET)
-    ResponseEntity<List<BlogEntryBasicInfoDto>> getAllMyBlogEntries() {
+    ResponseEntity<List<BlogEntryDetailedComponent>> getAllMyBlogEntries() {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -138,6 +135,19 @@ public class BlogEntryController {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+    @RequestMapping(value = "/admin/getAllEntries", method = RequestMethod.GET)
+    ResponseEntity<List<BlogEntryDetailedComponent>> getAllEntries() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.getAllEntries());
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

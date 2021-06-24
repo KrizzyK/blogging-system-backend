@@ -1,9 +1,7 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
+import com.kkjk.bloggingsystem.blogEntry.dto.*;
+import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectFactory;
 import com.kkjk.bloggingsystem.user.UserEntity;
 import com.kkjk.bloggingsystem.user.UserFactory;
@@ -57,6 +55,24 @@ public class BlogEntryFactory {
                 .title(entity.getTitle())
                 .createdDate(entity.getCreatedDate())
                 .viewCount(entity.getViewCount())
+                .build();
+    }
+
+    public static BlogEntryDetailedComponent entityToDetailedComponent(BlogEntryEntity entity) {
+        BlogObjectEntity paragraph = entity.getBlogObjects().stream()
+                .filter(obj ->
+                    obj.getType().equals("paragraph")
+                )
+                .findFirst()
+                .orElse(null);
+
+        return BlogEntryDetailedComponent.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .createdDate(entity.getCreatedDate())
+                .viewCount(entity.getViewCount())
+                .author(UserFactory.entityToBasicInfoDto(entity.getAuthor()))
+                .firstParagraph(paragraph != null ?  BlogObjectFactory.entityToResponseDto(paragraph).getContent() : null )
                 .build();
     }
 }

@@ -1,9 +1,6 @@
 package com.kkjk.bloggingsystem.blogEntry;
 
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryBasicInfoDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryFrontPageResponseDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryRequestDto;
-import com.kkjk.bloggingsystem.blogEntry.dto.BlogEntryResponseDto;
+import com.kkjk.bloggingsystem.blogEntry.dto.*;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectEntity;
 import com.kkjk.bloggingsystem.blogObject.BlogObjectService;
 import com.kkjk.bloggingsystem.comment.CommentEntity;
@@ -87,18 +84,22 @@ public class BlogEntryService {
                 .getComments();
     }
 
-    public Page<BlogEntryFrontPageResponseDto> getBlogPage(Pageable pageable) {
-        List<BlogEntryFrontPageResponseDto> list = repository.findAll(pageable)
+    public Page<BlogEntryDetailedComponent> getBlogPage(Pageable pageable) {
+        List<BlogEntryDetailedComponent> list = repository.findAll(pageable)
                 .stream()
-                .map(BlogEntryFactory::entityToFrontPageResponseDto)
+                .map(BlogEntryFactory::entityToDetailedComponent)
                 .collect(Collectors.toList());
 
         return new PageImpl<>(list);
     }
 
     @Transactional
-    public List<BlogEntryBasicInfoDto> getAllCurrentUserBlogEntries() {
+    public List<BlogEntryDetailedComponent> getAllCurrentUserBlogEntries() {
         UserEntity userEntity = userService.getCurrentUser();
-        return repository.findAllByAuthor(userEntity).stream().map(BlogEntryFactory::entityToBasicInfoDto).collect(Collectors.toList());
+        return repository.findAllByAuthor(userEntity).stream().map(BlogEntryFactory::entityToDetailedComponent).collect(Collectors.toList());
+    }
+
+    public List<BlogEntryDetailedComponent> getAllEntries() {
+        return repository.findAll().stream().map(BlogEntryFactory::entityToDetailedComponent).collect(Collectors.toList());
     }
 }
