@@ -38,7 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/v2/api-docs",
             "/api/blog/getCommentsFromBlogEntry",
-            "/api/blog/getBlogEntryById"
+            "/api/blog/getBlogEntryById",
+            "/api/blog/getFrontPage"
     };
 
     @Override
