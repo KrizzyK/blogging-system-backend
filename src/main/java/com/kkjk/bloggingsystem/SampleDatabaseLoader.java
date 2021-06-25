@@ -43,7 +43,7 @@ public class SampleDatabaseLoader implements CommandLineRunner {
                 UserEntity.builder()
                         .username("admin")
                         .email("admin@admin.com")
-                        .password(bcryptEncoder.encode("admin"))
+                        .password(bcryptEncoder.encode("nidma"))
                         .roles(roleEntitySet)
                         .build()
         );
